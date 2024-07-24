@@ -11,6 +11,8 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import axios from "axios";
 import { BsChevronDown } from "react-icons/bs";
 import Dropdown from "@/components/Dropdown";
+import LoadingBox from "@/components/LoadingBox";
+import toast from "react-hot-toast";
 
 export default function Home() {
         const { register, handleSubmit, formState: { errors }, setValue, getValues, setFocus, watch } = useForm();
@@ -27,13 +29,48 @@ export default function Home() {
         const [currUser, setCurrUser] = useState({})
         const [role, setRole] = useState("")
 
+        const handleDelete = async () => {
+                setLoading(true)
 
-        const handleDelete = async ({ email, password, fname, lname }) => {
+                try {
+                        const response = await axios.delete(`https://cae389f493be1dea03bf.free.beeceptor.com/api/users/${currUser.id}`,);
+                        fetchUsers()
+                        setDeleteModal(false)
 
+                        setValue("password", "")
+                        setValue("email", "")
+                        setRole("")
+                        setValue("f_name", "")
+                } catch (error) {
+                        toast.error(error?. response?.data?.error?.message??"Failed to delete user")
+
+                        console.error('Error fetching users:', error);
+                }
+
+                setLoading(false)
         }
 
-        const handlerUpdateUser = async ({ email, password, fname }) => {
+        const handlerUpdateUser = async ({ email, password, f_name }) => {
+                setLoading(true)
 
+                try {
+                        const response = await axios.put('https://cae389f493be1dea03bf.free.beeceptor.com/api/users/',
+                                { id:currUser.id, email, password, f_name, role },
+                                config
+                        );
+                        fetchUsers()
+                        setUpdateModal(false)
+
+                        setValue("password", "")
+                        setValue("email", "")
+                        setRole("")
+                        setValue("f_name", "")
+                } catch (error) {
+                        toast.error(error?. response?.data?.error?.message ??"Failed to update user")
+                        console.error('Error fetching users:', error);
+                }
+
+                setLoading(false)
         }
 
         const handlerNewUser = async ({ email, password, f_name }) => {
@@ -41,26 +78,36 @@ export default function Home() {
                 setLoading(true)
 
                 try {
-                        const response = await axios.post('https://myapi.beeceptor.com/api/users',
-                                {email, password, f_name, role},
+                        const response = await axios.post('https://cae389f493be1dea03bf.free.beeceptor.com/api/users/',
+                                { email, password, f_name, role },
                                 config
                         );
-                        setUsers(response.data);
+                        fetchUsers();
+                        setNewModal(false)
+
+                        setValue("password", "")
+                        setValue("email", "")
+                        setRole("")
+                        setValue("f_name", "")
                 } catch (error) {
+                        toast.error(error?. response?.data?.error?.message ?? "Failed to add new user")
                         console.error('Error fetching users:', error);
                 }
 
                 setLoading(false)
-                setValue("password", "")
+
+
         }
 
         const fetchUsers = async () => {
                 setLoading(true)
                 console.log("testing users")
                 try {
-                        const response = await axios.get('https://myapi.beeceptor.com/api/users');
+                        const response = await axios.get('https://cae389f493be1dea03bf.free.beeceptor.com/api/users/');
                         setUsers(response.data);
                 } catch (error) {
+                        toast.error(error?. response?.data?.error?.message??"Failed to fetch users")
+
                         console.error('Error fetching users:', error);
                 }
                 setLoading(false)
@@ -124,7 +171,7 @@ export default function Home() {
                                                                         </th>
                                                                         <th scope="col" className="px-6 py-3">
                                                                                 <div className="flex items-center">
-                                                                                        <span className="font-medium text-xs text-neutral-700">Email Address</span>
+                                                                                        <span className="font-medium text-xs text-neutral-700 whitespace-nowrap">Email Address</span>
                                                                                         <RxCaretSort color="#94A3B8" size={20} />
                                                                                 </div>
                                                                         </th>
@@ -140,92 +187,48 @@ export default function Home() {
                                                                 </tr>
                                                         </thead>
                                                         <tbody className="">
-                                                                <tr className="bg-white border-b transition hover:bg-[#F0F2F5]">
-                                                                        <th scope="row" className="px-6 py-[26px] font-medium text-gray-900 whitespace-nowrap ">
-                                                                                <div className="flex items-center gap-3">
-                                                                                        <input type="checkbox" className="w-[20px] h-[20px] cursor-pointer" />
-                                                                                        <span className="font-medium text-sm text-[#101928]">Apple MacBook Pro</span>
-                                                                                </div>
-                                                                        </th>
-                                                                        <td className="px-6 py-[26px] ">
-                                                                                <Link href={"mailto:taiwoisaac@email.com"} className=" block w-full !max-w-[300px] truncate  font-normal text-sm hover:underline ">
-                                                                                        taiwoisaac@email.com
-                                                                                </Link>
+                                                                {
+                                                                        (users)?.map((user, index) => (
+                                                                                <tr className="bg-white border-b transition hover:bg-[#F0F2F5]" key={index}>
+                                                                                        <th scope="row" className="px-6 py-[26px] font-medium text-gray-900 whitespace-nowrap ">
+                                                                                                <div className="flex items-center gap-3">
+                                                                                                        <input type="checkbox" className="w-[20px] h-[20px] cursor-pointer" />
+                                                                                                        <span className="font-medium text-sm text-[#101928]"> {user.f_name}</span>
+                                                                                                </div>
+                                                                                        </th>
+                                                                                        <td className="px-6 py-[26px] ">
+                                                                                                <Link href={"mailto:" + user.email} className=" block w-full !max-w-[300px] truncate  font-normal text-sm hover:underline ">
+                                                                                                        {user.email}
+                                                                                                </Link>
 
-                                                                        </td>
-                                                                        <td className="px-6 py-[26px]">
-                                                                                <span className="text-[#0D6EFD] bg-[#F0F6FE] text-sm py-0.5 px-3 rounded-[12px] whitespace-nowrap">Administrator</span>
-                                                                        </td>
-                                                                        <td className="px-6 py-[26px] app__flex gap-3">
-                                                                                <button className="font-bold text-sm text-[#0D6EFD]  hover:underline" onClick={() => {setUpdateModal(val => !val) ; setCurrUser()}}>Edit</button>
-                                                                                <button className="font-bold text-sm text-[#98A2B3]  hover:underline" onClick={() => {setDeleteModal(val => !val) ; setCurrUser()}}>Remove</button>
-                                                                        </td>
-                                                                </tr>
-                                                                <tr className="bg-white border-b transition hover:bg-[#F0F2F5]">
-                                                                        <th scope="row" className="px-6 py-[26px] font-medium text-gray-900 whitespace-nowrap ">
-                                                                                <div className="flex items-center gap-3">
-                                                                                        <input type="checkbox" className="w-[20px] h-[20px] cursor-pointer" />
-                                                                                        <span className="font-medium text-sm text-[#101928]">Iphone</span>
-                                                                                </div>
-                                                                        </th>
-                                                                        <td className="px-6 py-[26px] ">
-                                                                                <Link href={"mailto:taiwoisaac@email.com"} className=" block w-full !max-w-[300px] truncate  font-normal text-sm hover:underline ">
-                                                                                        isaac@email.com
-                                                                                </Link>
+                                                                                        </td>
+                                                                                        <td className="px-6 py-[26px]">
+                                                                                                {
+                                                                                                        user.role === "Admin" ?
+                                                                                                                <span className="text-[#0D6EFD] bg-[#F0F6FE] text-sm py-0.5 px-3 rounded-[12px] whitespace-nowrap">Administrator</span>
+                                                                                                                : user.role === "Sales Manager" ?
+                                                                                                                        <span className="text-[#0F973D] bg-[#E7F6EC] text-sm py-0.5 px-3 rounded-[12px] whitespace-nowrap ">Sales Manager</span>
+                                                                                                                        : user.role === "Sales Representative" ?
+                                                                                                                                <span className="text-[#F58A07] bg-[#FEF4E6] text-sm py-0.5 px-3 rounded-[12px] whitespace-nowrap">Sales Representative</span>
+                                                                                                                                :
+                                                                                                                                ""
+                                                                                                }
+                                                                                        </td>
+                                                                                        <td className="px-6 py-[26px] app__flex gap-3">
+                                                                                                <button className="font-bold text-sm text-[#0D6EFD]  hover:underline" onClick={() => { 
+                                                                                                        setUpdateModal(val => !val); 
+                                                                                                        setCurrUser(user) ;
 
-                                                                        </td>
-                                                                        <td className="px-6 py-[26px]">
-                                                                                <span className="text-[#0F973D] bg-[#E7F6EC] text-sm py-0.5 px-3 rounded-[12px] whitespace-nowrap ">Sales Manager</span>
-                                                                        </td>
-                                                                        <td className="px-6 py-[26px] app__flex gap-3">
-                                                                                <button className="font-bold text-sm text-[#0D6EFD]  hover:underline" onClick={() => setUpdateModal(val => !val)}>Edit</button>
-                                                                                <button className="font-bold text-sm text-[#98A2B3]  hover:underline" onClick={() => setDeleteModal(val => !val)}>Remove</button>
-                                                                        </td>
-                                                                </tr>
-                                                                <tr className="bg-white border-b transition hover:bg-[#F0F2F5]">
-                                                                        <th scope="row" className="px-6 py-[26px] font-medium text-gray-900 whitespace-nowrap ">
-                                                                                <div className="flex items-center gap-3">
-                                                                                        <input type="checkbox" className="w-[20px] h-[20px] cursor-pointer" />
-                                                                                        <span className="font-medium text-sm text-[#101928]">Sam phone</span>
-                                                                                </div>
-                                                                        </th>
-                                                                        <td className="px-6 py-[26px] ">
-                                                                                <Link href={"mailto:taiwoisaac@email.com"} className=" block w-full !max-w-[300px] truncate  font-normal text-sm hover:underline ">
-                                                                                        sam@email.com
-                                                                                </Link>
+                                                                                                        setValue("email", user.email)
+                                                                                                        setRole(user?.role??"Admin")
+                                                                                                        setValue("f_name", user.f_name)
 
-                                                                        </td>
-                                                                        <td className="px-6 py-[26px]">
-                                                                                <span className="text-[#0F973D] bg-[#E7F6EC] text-sm py-0.5 px-3 rounded-[12px] whitespace-nowrap">Sales Manager</span>
-                                                                        </td>
-                                                                        <td className="px-6 py-[26px] app__flex gap-3">
-                                                                                <button className="font-bold text-sm text-[#0D6EFD]  hover:underline" onClick={() => setUpdateModal(val => !val)}>Edit</button>
-                                                                                <button className="font-bold text-sm text-[#98A2B3]  hover:underline" onClick={() => setDeleteModal(val => !val)}>Remove</button>
-                                                                        </td>
-                                                                </tr>
-                                                                <tr className="bg-white border-b transition hover:bg-[#F0F2F5]">
-                                                                        <th scope="row" className="px-6 py-[26px] font-medium text-gray-900 whitespace-nowrap ">
-                                                                                <div className="flex items-center gap-3">
-                                                                                        <input type="checkbox" className="w-[20px] h-[20px] cursor-pointer" />
-                                                                                        <span className="font-medium text-sm text-[#101928]">Tweet</span>
-                                                                                </div>
-                                                                        </th>
-                                                                        <td className="px-6 py-[26px] ">
-                                                                                <Link href={"mailto:taiwoisaac@email.com"} className=" block w-full !max-w-[300px] truncate  font-normal text-sm hover:underline ">
-                                                                                        x@email.com
-                                                                                </Link>
-
-                                                                        </td>
-                                                                        <td className="px-6 py-[26px]">
-                                                                                <span className="text-[#F58A07] bg-[#FEF4E6] text-sm py-0.5 px-3 rounded-[12px] whitespace-nowrap">Sales Representative</span>
-                                                                        </td>
-                                                                        <td className="px-6 py-[26px] app__flex gap-3">
-                                                                                <button className="font-bold text-sm text-[#0D6EFD]  hover:underline" onClick={() => setUpdateModal(val => !val)}>Edit</button>
-                                                                                <button className="font-bold text-sm text-[#98A2B3]  hover:underline" onClick={() => setDeleteModal(val => !val)}>Remove</button>
-                                                                        </td>
-                                                                </tr>
-                                                                
-                                                               
+                                                                                                }}>Edit</button>
+                                                                                                <button className="font-bold text-sm text-[#98A2B3]  hover:underline" onClick={() => { setDeleteModal(val => !val); setCurrUser(user); }}>Remove</button>
+                                                                                        </td>
+                                                                                </tr>
+                                                                        ))
+                                                                }
                                                         </tbody>
                                                 </table>
                                         </div>
@@ -305,7 +308,7 @@ export default function Home() {
                                                                         </div>
 
                                                                         <div className="w-full">
-                                                                                <button className="bg-[#0D6EFD] text-white rounded-[8px] transition hover:opacity-60 w-full  text-center py-4" type="submit">Add User</button>
+                                                                                <button className="bg-[#0D6EFD] text-white rounded-[8px] transition hover:opacity-60 w-full  text-center py-4" type="submit">{loading ? <LoadingBox size={10} color={"white"} /> : "Add User"}</button>
                                                                         </div>
                                                                 </form>
 
@@ -324,7 +327,7 @@ export default function Home() {
                                                                 modalOpen={updateModal}
                                                                 setModalOpen={setUpdateModal}
                                                                 modalWidth={"700px"}
-                                                                onClose={() => {setCurrUser({}) }}
+                                                                onClose={() => { setCurrUser({}) }}
                                                         >
                                                                 <div className="mb-6">
                                                                         <span className="rounded-full border border-solid border-[#D2E4FE] h-[64px] w-[64px] min-h-[64px] min-w-[64px] app__flex block mx-auto mb-2">
@@ -334,7 +337,7 @@ export default function Home() {
                                                                         <h1 className="text-[#1D2739] text-2xl	 font-bold mb-2 text-center">Edit User</h1>
                                                                 </div>
 
-                                                                <form onSubmit={handleSubmit(handlerNewUser)} className="w-full  px-[2px]">
+                                                                <form onSubmit={handleSubmit(handlerUpdateUser)} className="w-full  px-[2px]">
                                                                         <div className="mb-6 "  >
                                                                                 <label htmlFor="email" className='font-medium text-sm text-[#475367] mb-1'>Email Address </label>
                                                                                 <div className={`  rounded-md border border-solid border-[#D0D5DD] p-4 app__flex transition hover:border-[#D2E4FE] focus-within:border-[#D2E4FE]`}>
@@ -387,7 +390,7 @@ export default function Home() {
                                                                         </div>
 
                                                                         <div className="w-full">
-                                                                                <button className="bg-[#0D6EFD] text-white rounded-[8px] transition hover:opacity-60 w-full  text-center py-4" type="submit">Update User</button>
+                                                                                <button className="bg-[#0D6EFD] text-white rounded-[8px] transition hover:opacity-60 w-full  text-center py-4" type="submit">{loading ? <LoadingBox size={10} color={"white"} /> : "Update User"}</button>
                                                                         </div>
                                                                 </form>
 
@@ -406,7 +409,7 @@ export default function Home() {
                                                                 modalOpen={deleteModal}
                                                                 setModalOpen={setDeleteModal}
                                                                 modalWidth={"550px"}
-                                                                onClose={() => { setCurrUser({})}}
+                                                                onClose={() => { setCurrUser({}) }}
                                                         >
                                                                 <div className="mb-6">
                                                                         <h1 className="text-[#1D2739] text-2xl	 font-bold mb-2 text-center">Delete this user</h1>
@@ -421,7 +424,7 @@ export default function Home() {
                                                                         </button>
                                                                         <button className="text-[#D42620] border-solid border border-[#EB9B98] bg-[#FBEAE9] py-2 px-3 rounded-[8px] app__flex gap-2 transition hover:opacity-60" onClick={() => handleDelete()}>
                                                                                 <FaRegTrashAlt color="#D42620" size={20} />
-                                                                                <span className="text-sm font-bold">Yes, Delete</span>
+                                                                                <span className="text-sm font-bold">{loading ? <LoadingBox size={10} color={"#D42620"} /> : "Yes, Delete"}</span>
                                                                         </button>
                                                                 </div>
 

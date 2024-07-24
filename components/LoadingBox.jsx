@@ -19,5 +19,5 @@ export default function LoadingBox({size,color,text , block}) {
 LoadingBox.defaultProps={
         size:10,
        color: "#0A6DE4",
-       text:"Loading..."
+       text:""
 }
