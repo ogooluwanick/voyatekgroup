@@ -43,6 +43,40 @@ button {
         }
 }
 
+.app__flex {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
+.dash_navbar{
+
+        position: fixed;
+        z-index: 5;
+        top: 0;
+        left: 0;
+        width: 100vw;
+
+        nav{
+
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                // padding: 20px;
+
+                // @media screen and (max-width:500px) { padding: 10px 20px; }
+
+        }
+
+       
+        &.blur_navbar{
+                background: rgba(255, 255, 255, 0.21);
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+                backdrop-filter: blur(4.7px);
+                -webkit-backdrop-filter: blur(4.7px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.21);
+        }
+}
 
 .loadingBox {
         display: flex;
