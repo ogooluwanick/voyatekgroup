@@ -228,6 +228,12 @@ export default function Home() {
                                                                 }
                                                         </tbody>
                                                 </table>
+
+                                                {
+                                                        users.length <= 0 ?
+                                                        <h2 className="text-center py-12">No users yet!</h2>
+                                                        :"" 
+                                                }
                                         </div>
 
                                 </div>
@@ -365,7 +371,7 @@ export default function Home() {
                                                                         <Dropdown currVal={role} onClick={(key) => setRole(key)} />
 
                                                                         <div className="mb-6 "  >
-                                                                                <label htmlFor="password" className='font-medium text-sm text-[#475367] mb-1'>Create Password </label>
+                                                                                <label htmlFor="password" className='font-medium text-sm text-[#475367] mb-1'>Change Password </label>
                                                                                 <div className={`  rounded-md border border-solid border-[#D0D5DD] p-4 app__flex transition hover:border-[#D2E4FE] focus-within:border-[#D2E4FE]`}>
                                                                                         <input id="password" className='flex-1 outline-none  text-sm placeholder:text-sm placeholder:text-[#98A2B3]' type={showPassword ? "text" : "password"} autoFocus disabled={loading} placeholder="Create a Password for New User"  {
                                                                                                 ...register("password",
