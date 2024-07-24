@@ -16,9 +16,7 @@ import toast from "react-hot-toast";
 
 export default function Home() {
         const { register, handleSubmit, formState: { errors }, setValue, getValues, setFocus, watch } = useForm();
-        const config = {
-                headers: { Authorization: `Bearer ${""}` }
-        }
+        const domain = "cad918dd2de89aa0e4c2"
         const [mode, setMode] = useState("Users")
         const [updateModal, setUpdateModal] = useState("Users")
         const [newModal, setNewModal] = useState(false)
@@ -33,7 +31,7 @@ export default function Home() {
                 setLoading(true)
 
                 try {
-                        const response = await axios.delete(`https://cae389f493be1dea03bf.free.beeceptor.com/api/users/${currUser.id}`,);
+                        const response = await axios.delete(`https://${domain}.free.beeceptor.com/api/users/${currUser.id}`,);
                         fetchUsers()
                         setDeleteModal(false)
 
@@ -54,7 +52,7 @@ export default function Home() {
                 setLoading(true)
 
                 try {
-                        const response = await axios.put('https://cae389f493be1dea03bf.free.beeceptor.com/api/users/',
+                        const response = await axios.put(`https://${domain}.free.beeceptor.com/api/users/`,
                                 { id:currUser.id, email, password, f_name, role },
                                 config
                         );
@@ -78,7 +76,7 @@ export default function Home() {
                 setLoading(true)
 
                 try {
-                        const response = await axios.post('https://cae389f493be1dea03bf.free.beeceptor.com/api/users/',
+                        const response = await axios.post(`https://${domain}.free.beeceptor.com/api/users/`,
                                 { email, password, f_name, role },
                                 config
                         );
@@ -103,7 +101,7 @@ export default function Home() {
                 setLoading(true)
                 console.log("testing users")
                 try {
-                        const response = await axios.get('https://cae389f493be1dea03bf.free.beeceptor.com/api/users/');
+                        const response = await axios.get(`https://${domain}.free.beeceptor.com/api/users/`);
                         setUsers(response.data);
                 } catch (error) {
                         toast.error(error?. response?.data?.error?.message??"Failed to fetch users")
