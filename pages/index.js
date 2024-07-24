@@ -54,7 +54,6 @@ export default function Home() {
                 try {
                         const response = await axios.put(`https://${domain}.free.beeceptor.com/api/users/`,
                                 { id:currUser.id, email, password, f_name, role },
-                                config
                         );
                         fetchUsers()
                         setUpdateModal(false)
@@ -78,7 +77,7 @@ export default function Home() {
                 try {
                         const response = await axios.post(`https://${domain}.free.beeceptor.com/api/users/`,
                                 { email, password, f_name, role },
-                                config
+                                
                         );
                         fetchUsers();
                         setNewModal(false)
