@@ -18,7 +18,7 @@ export default function Home() {
         const { register, handleSubmit, formState: { errors }, setValue, getValues, setFocus, watch } = useForm();
         const domain = "cad918dd2de89aa0e4c2"
         const [mode, setMode] = useState("Users")
-        const [updateModal, setUpdateModal] = useState("Users")
+        const [updateModal, setUpdateModal] = useState(false)
         const [newModal, setNewModal] = useState(false)
         const [deleteModal, setDeleteModal] = useState(false)
         const [loading, setLoading] = useState(false)
