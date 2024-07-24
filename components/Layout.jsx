@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
                         <header>
                                 <Navbar />
                         </header>
-                        <main className={"min-h-[100dvh] mx-auto max-w-[1675px] pt-[110px] px-6 pl-[304px]"}>
+                        <main className={"min-h-[100dvh] mx-auto max-w-[1675px] pt-[110px] px-6 md:pl-[304px]"}>
                                 {children}
                         </main>
                 </div>

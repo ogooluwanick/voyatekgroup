@@ -18,14 +18,14 @@ const Navbar = () => {
                                         <Image src="/go-logo.png" alt="go logo" width={36.1} height={34.3} className=''/>
                                 </motion.a>
 
-                                <div className=" flex-1 flex items-center justify-between gap-6 ">
-                                        <div className="w-full max-w-[629px] rounded-md  px-3 py-2.5 app__flex gap-2 bg-[#F0F2F5]" style={{boxShadow: "0px 1px 2px 0px #1018280D"}}>
+                                <div className=" flex-1 flex items-center justify-end md:justify-between gap-6  ">
+                                        <div className="w-full max-w-[629px] rounded-md  px-3 py-2.5 app__flex gap-2 bg-[#F0F2F5] !hidden md:!flex" style={{boxShadow: "0px 1px 2px 0px #1018280D"}}>
                                                 <IoSearch size={20} color='#475367'/>
                                                 <input type="text" className="flex-1 bg-inherit placeholder:text-[#667185] text-sm placeholder:text-sm placeholder:font-light  outline-none" placeholder='Search here...' />
                                         </div>
 
-                                        <div className="app__flex gap-4">
-                                                <div className="app__flex gap-2 text-[12px] text-[#647995] leading-[17.4px]">
+                                        <div className="app__flex gap-4 ">
+                                                <div className="app__flex gap-2 text-[12px] text-[#647995] leading-[17.4px] !hidden md:!flex">
                                                         <Link className="w-[64px] app__flex flex-col gap-1 transition hover:text-[#0D6EFD] hover:font-medium" href="">
                                                                 <SvgBell className="w-6 h-6"/>
                                                                 <span className="">Notifications</span>

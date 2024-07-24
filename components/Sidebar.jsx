@@ -7,7 +7,7 @@ import { RxExit } from "react-icons/rx";
 const Sidebar = () => {
         return (
                 <>
-                        <motion.div className={"mobileMenu "} initial={{ x: "-100%" }} animate={{ x: 0 }} exit={{ x: "-100%" }} transition={{ type: "spring", bounce: 0.3, duration: 0.4 }} key="side-menu" >
+                        <motion.div className={"mobileMenu hidden md:block"} initial={{ x: "-100%" }} animate={{ x: 0 }} exit={{ x: "-100%" }} transition={{ type: "spring", bounce: 0.3, duration: 0.4 }} key="side-menu" >
                                 <p className="text-neutral-700 text-[12px] font-bold leading-[17.4px] px-4 mb-2">Settings</p>
 
                                 <div className="app__flex flex-col gap-3  ">
