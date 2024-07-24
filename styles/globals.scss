@@ -78,6 +78,23 @@ button {
         }
 }
 
+
+.mobileMenu{
+        position: fixed;
+        top: 110px;
+        width: 100%;
+        max-width: 224px;
+        height: calc(100dvh - 110px - 20px);
+        left: 24px;
+        z-index: 8 !important;
+        background-color: #fff;
+        border-radius: 6px ;
+        border: 1px solid #E4E7EC;
+        padding-bottom: 24px;
+        padding-top: 16px;
+
+}
+
 .loadingBox {
         display: flex;
         flex-direction: row;
@@ -104,5 +121,72 @@ button {
                 /* will-change: transform; */
                 transition: all .2s ease-in-out;
         }
+
+}
+
+.modalOverlay{
+        width: 100vw;
+        height: 100%;
+        background: rgba(52, 64, 84, 0.6);
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 120    !important;
+        transition: all .3s ease-in-out;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
+.modalBox{
+        z-index: 130    !important;
+        background-color: #fff;
+        border: 1px solid #E6E5E6;
+        padding: 32px 40px;
+        border-radius: 8px;
+        
+        width: 60%;
+        
+
+        @media screen and (max-width:950px) {
+                max-width: none;
+                width: 85%;
+        }
+
+        @media screen and (max-width:800px) {
+                max-width: none;
+                width: 95%;
+        }
+        
+        @media screen and (max-width:675px) {
+                padding: 16px;
+        }
+
+
+
+
+        >nav{
+                display: flex !important; 
+                justify-content: space-between;
+                align-items: center;
+                gap: 15px;
+                
+                margin-bottom: 24px;
+
+                h5{
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;     
+                }
+        }
+       
+
+        >section{
+                min-height: 8rem;
+                max-height: 85vh;
+                overflow-y: scroll;
+        }
+
 
 }

@@ -19,7 +19,7 @@ const Navbar = () => {
                                 </motion.a>
 
                                 <div className=" flex-1 flex items-center justify-between gap-6 ">
-                                        <div className="w-full max-w-[629px] rounded-md  px-3 py-2.5 app__flex gap-2 bg-[#F0F2F5]">
+                                        <div className="w-full max-w-[629px] rounded-md  px-3 py-2.5 app__flex gap-2 bg-[#F0F2F5]" style={{boxShadow: "0px 1px 2px 0px #1018280D"}}>
                                                 <IoSearch size={20} color='#475367'/>
                                                 <input type="text" className="flex-1 bg-inherit placeholder:text-[#667185] text-sm placeholder:text-sm placeholder:font-light  outline-none" placeholder='Search here...' />
                                         </div>
@@ -43,8 +43,8 @@ const Navbar = () => {
                                                                 <span className="">Settings</span>
                                                         </Link>
                                                 </div>
-                                                <div className="app__flex gap-2">
-                                                        <Image src="/1647516270950.jpeg" alt="go logo" width={36.1} height={34.3} className='rounded-full h-[38px] w-[38px]' />
+                                                <div className="app__flex gap-2 cursor-pointer">
+                                                        <Image src="/1647516270950.jpeg" alt="go logo" width={36.1} height={34.3} className='rounded-full h-[38px] w-[38px] min-h-[38px] min-w-[38px]' />
                                                         <BsChevronDown size={16} color='#667185' />
                                                 </div>
                                         </div>
