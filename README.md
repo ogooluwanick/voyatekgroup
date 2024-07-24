@@ -19,8 +19,8 @@ To run this project locally, follow these steps:
 
 1. Clone the repository:
 
-- git clone [your-repo-link]
-- cd [your-repo-name]
+- git clone [[your-repo-link](https://github.com/ogooluwanick/voyatekgroup)]
+- cd [voyatekgroup]
 
 2. Install dependencies:
 
@@ -65,7 +65,6 @@ This project is configured for easy deployment on Vercel. Simply connect your Gi
 
 ## Contact
 
-For any questions or feedback, please reach out to [Your Name] at [Your Email].
 
 
 
